@@ -1,5 +1,6 @@
 const APP_ID = "7a40b95ec2b9470390ddbf4490989637"
 
+let client;
 let uid = sessionStorage.getItem('uid')
 if(!uid){
     uid = String(Math.floor(Math.random() * 10000))
@@ -7,7 +8,6 @@ if(!uid){
 }
 
 let token = null;
-let client;
 
 let rtmClient;
 let channel;
@@ -72,7 +72,7 @@ let joinStream = async () => {
     document.getElementById(`user-container-${uid}`).addEventListener('click', expandVideoFrame)
 
     localTracks[1].play(`user-${uid}`)
-    await client.publish([localTracks[0], localTracks[1]])
+    await client.publish([localTracks[0],localTracks[1]])
 }
 
 let switchToCamera = async () => {
@@ -107,7 +107,7 @@ let handleUserPublished = async (user, mediaType) => {
    
     }
 
-    if(displayFrame.style.display){
+    if( displayFrame.style.display){
         let videoFrame = document.getElementById(`user-container-${user.uid}`)
         videoFrame.style.height = '100px'
         videoFrame.style.width = '100px'
@@ -225,7 +225,7 @@ let leaveStream = async (e) => {
         localTracks[i].close()
     }
 
-    await client.unpublish([localTracks[0], localTracks[1]])
+    await client.unpublish([localTracks[0],localTracks[1]])
 
     if(localScreenTracks){
         await client.unpublish([localScreenTracks])
@@ -246,7 +246,7 @@ let leaveStream = async (e) => {
 }
 
 
-
+joinRoomInit()
 document.getElementById('camera-btn').addEventListener('click', toggleCamera)
 document.getElementById('mic-btn').addEventListener('click', toggleMic)
 document.getElementById('screen-btn').addEventListener('click', toggleScreen)
@@ -254,4 +254,3 @@ document.getElementById('join-btn').addEventListener('click', joinStream)
 document.getElementById('leave-btn').addEventListener('click', leaveStream)
 
 
-joinRoomInit()
